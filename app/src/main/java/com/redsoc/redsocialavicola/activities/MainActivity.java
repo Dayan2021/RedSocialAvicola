@@ -28,6 +28,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.redsoc.redsocialavicola.R;
+import com.redsoc.redsocialavicola.models.User;
+import com.redsoc.redsocialavicola.providers.AuthProvider;
+import com.redsoc.redsocialavicola.providers.UsersProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
    TextInputEditText mTextInputEmail;
    TextInputEditText mTextInputPassword;
    Button mButtonLogin;
-   FirebaseAuth mAuth;
+   AuthProvider mAuthpRrovider;
    SignInButton mButtonGoogle;
    private GoogleSignInClient mGoogleSignInClient;
    private final int REQUEST_CODE_GOOGLE = 3;
-   FirebaseFirestore mFirestore;
+   UsersProvider mUsersProvider;
 
 
 
@@ -58,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
         mButtonLogin =findViewById(R.id.btnLogin);
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuthpRrovider = new AuthProvider();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        mFirestore = FirebaseFirestore.getInstance();
+       mUsersProvider = new UsersProvider();
 
 
         mButtonGoogle.setOnClickListener(new View.OnClickListener() {
@@ -123,14 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuthpRrovider.googleLogin(acct).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String id = mAuth.getCurrentUser().getUid();
+                            String id = mAuthpRrovider.getUid();
                             checkUserExist(id);
 
                         }
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUserExist(final String id) {
-        mFirestore.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mUsersProvider.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
@@ -154,10 +154,11 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    String email = mAuth.getCurrentUser().getEmail();
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("email", email);
-                    mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String email = mAuthpRrovider.getEmail();
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setId(id);
+                    mUsersProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
@@ -178,8 +179,7 @@ public class MainActivity extends AppCompatActivity {
     private void login(){
         String email = mTextInputEmail.getText().toString();
         String password = mTextInputPassword.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuthpRrovider.login(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                if(task.isSuccessful()){
