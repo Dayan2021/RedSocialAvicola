@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "170723218008",
+    "project_id": "redsocialavicola-bfa5b",
+    "storage_bucket": "redsocialavicola-bfa5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170723218008:android:0852cbca7890fe3671302d",
+        "android_client_info": {
+          "package_name": "com.redsoc.redsocialavicola"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170723218008-4hond9984big7mdpkcgi47rh6dp3duuh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redsoc.redsocialavicola",
+            "certificate_hash": "0c9f58910a9b8faaf01443902103c8371294c439"
+          }
+        },
+        {
+          "client_id": "170723218008-0gmd6t03t3ofnuq4dl3oe5sjreqfgc5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwbiSEeddnkjARQqic3lvgVauXflL2lp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170723218008-0gmd6t03t3ofnuq4dl3oe5sjreqfgc5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
