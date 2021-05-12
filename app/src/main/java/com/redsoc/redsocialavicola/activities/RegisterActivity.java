@@ -3,6 +3,8 @@ package com.redsoc.redsocialavicola.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.redsoc.redsocialavicola.R;
+import com.redsoc.redsocialavicola.models.User;
+import com.redsoc.redsocialavicola.providers.AuthProvider;
+import com.redsoc.redsocialavicola.providers.UsersProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import dmax.dialog.SpotsDialog;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,8 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputEditText mTextInputPassword;
     TextInputEditText mTextInputConfirmPassword;
     Button mButtonRegister;
-    FirebaseAuth mAuth;
-    FirebaseFirestore mFirestore;
+    AuthProvider mAuthProvider;
+    UsersProvider mUsersProvider;
+    AlertDialog mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,13 @@ public class RegisterActivity extends AppCompatActivity {
         mTextInputConfirmPassword = findViewById(R.id.textInputConfirmPassword);
         mButtonRegister = findViewById(R.id.btnRegister);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        mAuthProvider = new AuthProvider();
+        mUsersProvider  = new UsersProvider();
 
+        mDialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Espere un momento")
+                .setCancelable(false).build();
 
 
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
@@ -99,22 +111,27 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createUser(final String username, final String email, final String password){
-       mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mDialog.show();
+        mAuthProvider.register(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
            @Override
            public void onComplete(@NonNull Task<AuthResult> task) {
                if(task.isSuccessful()){
-                   String id = mAuth.getCurrentUser().getUid();
-                   Map<String, Object> map = new HashMap<>();
-                   map.put(  "email", email);
-                   map.put("username", username);
-
-                   mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                   String id = mAuthProvider.getUid();
+                   User user = new User();
+                   user.setId(id);
+                   user.setEmail(email);
+                   user.setUsername(username);
+                   mUsersProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
+                           mDialog.dismiss();
                            if(task.isSuccessful()){
-                               Toast.makeText(RegisterActivity.this, "El usuario se almaceno correctamente en la base de datos", Toast.LENGTH_SHORT).show();
+                               Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                               intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                               startActivity(intent);
                            }
                            else{
+                               mDialog.dismiss();
                                Toast.makeText(RegisterActivity.this, "No se pudo almacenar el usuario", Toast.LENGTH_SHORT).show();
 
                            }
