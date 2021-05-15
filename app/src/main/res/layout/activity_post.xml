@@ -1,9 +1,333 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".activities.PostActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="vertical"
+            android:background="@color/colorAcent">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textAlignment="center"
+               android:text="CREAR PUBLICACION"
+               android:textColor="@color/colorWhite"
+               android:textSize="18dp"
+               android:layout_marginTop="23dp" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:layout_marginRight="40dp"
+              android:layout_marginLeft="40dp"
+              android:layout_marginTop="40dp">
+
+
+              <androidx.cardview.widget.CardView
+                  android:layout_width="0dp"
+                  android:layout_height="120dp"
+                  app:cardBackgroundColor="@color/colorWhite"
+                  android:layout_weight="1"
+                  android:layout_marginRight="10dp"
+                  app:cardCornerRadius="10dp"
+                  >
+
+
+              <ImageView
+                  android:id="@+id/imageViewPost1"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:src="@drawable/photo"
+                  />
+
+              </androidx.cardview.widget.CardView>
+
+
+              <androidx.cardview.widget.CardView
+                  android:layout_width="0dp"
+                  android:layout_height="120dp"
+                  app:cardBackgroundColor="@color/colorWhite"
+                  android:layout_weight="1"
+                  android:layout_marginRight="10dp"
+                  app:cardCornerRadius="10dp"
+                  >
+                  <ImageView
+                      android:id="@+id/imageViewPost2"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:src="@drawable/photo"/>
+
+              </androidx.cardview.widget.CardView>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_voice"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="5dp"
+                />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputPublicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:hint="Nombre de la publicacion"
+                    android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_descripcion"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="1dp"
+                />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="63dp"
+                    android:hint="Descripcion"
+                    android:inputType="textImeMultiLine"
+                    android:maxLines="4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CATEGORIAS"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:textSize="17dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGray"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+///////////////////////////////////////AGRICULTURA////////////////////////////
+
+
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical">
+
+
+          <androidx.cardview.widget.CardView
+              android:layout_width="match_parent"
+              android:layout_height="70dp"
+              app:cardBackgroundColor="@color/colorDarkBlue"
+              android:layout_marginRight="3dp"
+              android:layout_marginLeft="3dp"
+              app:cardCornerRadius="5dp"
+              app:cardElevation="10dp">
+
+              <ImageView
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:src="@drawable/campo_dos"/>
+
+          </androidx.cardview.widget.CardView>
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="AGRICULTURA"
+               android:textAlignment="center"
+               android:textColor="@color/black"
+               android:textStyle="bold"
+               android:layout_marginTop="5dp"/>
+
+          </LinearLayout>
+
+          //////////////////////////////AVICULTURA/////////////////////////////////
+
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical">
+
+
+              <androidx.cardview.widget.CardView
+                  android:layout_width="match_parent"
+                  android:layout_height="70dp"
+                  app:cardBackgroundColor="@color/colorDarkBlue"
+                  android:layout_marginRight="3dp"
+                  android:layout_marginLeft="3dp"
+                  app:cardCornerRadius="5dp"
+                  app:cardElevation="10dp">
+
+                  <ImageView
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:src="@drawable/gallina_dos"/>
+
+              </androidx.cardview.widget.CardView>
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="AVICULTURA"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textStyle="bold"
+                  android:layout_marginTop="5dp"/>
+
+          </LinearLayout>
+
+          //////////////////////////////PORCICULTURA/////////////////////////////////////
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical">
+
+
+              <androidx.cardview.widget.CardView
+                  android:layout_width="match_parent"
+                  android:layout_height="70dp"
+                  app:cardBackgroundColor="@color/colorDarkBlue"
+                  android:layout_marginRight="3dp"
+                  android:layout_marginLeft="3dp"
+                  app:cardCornerRadius="5dp"
+                  app:cardElevation="10dp">
+
+                  <ImageView
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:src="@drawable/cerdo_dos"/>
+
+              </androidx.cardview.widget.CardView>
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="PORCICULTURA"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textStyle="bold"
+                  android:layout_marginTop="5dp"/>
+
+          </LinearLayout>
+
+          ////////////////////////////PISCICULTURA///////////////////////////
+
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical">
+
+
+              <androidx.cardview.widget.CardView
+                  android:layout_width="match_parent"
+                  android:layout_height="70dp"
+                  app:cardBackgroundColor="@color/colorDarkBlue"
+                  android:layout_marginRight="3dp"
+                  android:layout_marginLeft="3dp"
+                  app:cardCornerRadius="5dp"
+                  app:cardElevation="10dp">
+
+                  <ImageView
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:src="@drawable/pescado"/>
+
+              </androidx.cardview.widget.CardView>
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="PISCICULTURA"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textStyle="bold"
+                  android:layout_marginTop="5dp"/>
+
+          </LinearLayout>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PUBLICAR"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorAcent"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        android:textColor="@color/colorWhite"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

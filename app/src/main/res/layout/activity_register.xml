@@ -76,6 +76,7 @@
                     android:layout_height="63dp"
                     android:hint="Nombre de Usuario"
                     android:inputType="textEmailAddress" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
