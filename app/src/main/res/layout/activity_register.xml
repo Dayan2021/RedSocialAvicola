@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:elevation="4dp"
-
             app:shape_arc_height="20dp"
             app:shape_arc_position="bottom"  >
 
@@ -53,7 +52,7 @@
             android:orientation="horizontal"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="5dp"
             >
 
             <ImageView
@@ -67,15 +66,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                >
+                android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputUsername"
                     android:layout_width="match_parent"
                     android:layout_height="63dp"
                     android:hint="Nombre de Usuario"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,6 +110,38 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_phone"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="5dp"
+                />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="63dp"
+                    android:hint="Telefono"
+                    android:inputType="numberSigned" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +149,7 @@
             android:orientation="horizontal"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="1dp"
             >
 
             <ImageView
@@ -154,7 +183,7 @@
             android:orientation="horizontal"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="1dp"
             >
 
             <ImageView
@@ -191,7 +220,7 @@
             android:backgroundTint="@color/colorAcent"
             android:text="REGISTRARSE"
             android:textColor="@color/colorWhite"
-            android:layout_margin="20dp" />
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 

@@ -47,10 +47,9 @@ public class MainActivity extends AppCompatActivity {
    AuthProvider mAuthProvider;
    SignInButton mButtonGoogle;
    private GoogleSignInClient mGoogleSignInClient;
-   private final int REQUEST_CODE_GOOGLE = 3;
+   private final int REQUEST_CODE_GOOGLE = 1;
    UsersProvider mUsersProvider;
    AlertDialog mDialog;
-
 
 
 
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
        mUsersProvider = new UsersProvider();
 
 
+
         mButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuthProvider.getUserSession() !=null){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void signInGoogle() {                                                      ///metodo inicializar sesion en google
@@ -199,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 mDialog.dismiss();
                if(task.isSuccessful()){
                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                    startActivity(intent);
                }
                else{

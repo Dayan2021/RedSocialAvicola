@@ -20,6 +20,7 @@ import com.redsoc.redsocialavicola.models.User;
 import com.redsoc.redsocialavicola.providers.AuthProvider;
 import com.redsoc.redsocialavicola.providers.UsersProvider;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
 
     TextInputEditText mTextInputUsername;
+    TextInputEditText mTextInputPhone;
     Button mButtonRegister;
     AuthProvider mAuthProvider;
     UsersProvider mUsersProvider;
@@ -43,6 +45,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
 
         mTextInputUsername = findViewById(R.id.textInputUsername);
+        mTextInputPhone = findViewById(R.id.textInputPhone);
         mButtonRegister = findViewById(R.id.btnRegister);
 
         mAuthProvider = new AuthProvider();
@@ -67,19 +70,24 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
     private void register() {
         String username = mTextInputUsername.getText().toString();
+        String phone= mTextInputPhone.getText().toString();
+
         if (!username.isEmpty()) {
-            updateUser(username);
+            updateUser(username,phone);
         }
         else {
             Toast.makeText(this, "Para continuar inserta todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateUser(final String username) {
+    private void updateUser(final String username, final String phone) {
         String id = mAuthProvider.getUid();
         User user = new User();
         user.setUsername(username);
         user.setId(id);
+        user.setPhone(phone);
+        user.setTimestamp(new Date().getTime());
+
         mDialog.show();
         mUsersProvider.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
