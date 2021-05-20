@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContext(this)
                 .setMessage("Espere un momento")
                 .setCancelable(false).build();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)  /// tokenizado
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();

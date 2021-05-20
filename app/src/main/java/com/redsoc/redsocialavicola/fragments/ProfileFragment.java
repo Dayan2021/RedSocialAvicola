@@ -74,9 +74,11 @@ public class ProfileFragment extends Fragment {
                 goToEditProfile();
             }
         });
+
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
         mPostProvider = new PostProvider();
+
         getUser();
         getPostNumber();
         return mView;
