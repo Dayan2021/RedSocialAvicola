@@ -57,14 +57,15 @@ public class CommentAdapter extends FirestoreRecyclerAdapter<Comment, CommentAda
                         String username = documentSnapshot.getString("username");
                         holder.textViewUsername.setText(username);
                   }
-                  if(documentSnapshot.contains("image_provide")){
-                        String imageProvide = documentSnapshot.getString("image_provide");
-                        if(imageProvide != null){
-                            if(!imageProvide.isEmpty()){
-                                Picasso.with(context).load(imageProvide).into(holder.circleImageComment);
+                  if(documentSnapshot.contains("image_profile")){
+                        String imageProfile = documentSnapshot.getString("image_profile");
+                        if(imageProfile != null){
+                            if(!imageProfile.isEmpty()){
+                                Picasso.with(context).load(imageProfile).into(holder.circleImageComment);
                             }
                         }
                     }
+
 
                 }
             }
