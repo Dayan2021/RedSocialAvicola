@@ -1,6 +1,7 @@
 package com.redsoc.redsocialavicola.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +26,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.redsoc.redsocialavicola.R;
 import com.redsoc.redsocialavicola.adapters.CommentAdapter;
 import com.redsoc.redsocialavicola.adapters.PostsAdapter;
@@ -35,8 +39,10 @@ import com.redsoc.redsocialavicola.models.Post;
 import com.redsoc.redsocialavicola.models.SliderItem;
 import com.redsoc.redsocialavicola.providers.AuthProvider;
 import com.redsoc.redsocialavicola.providers.CommentsProvider;
+import com.redsoc.redsocialavicola.providers.LikesProvider;
 import com.redsoc.redsocialavicola.providers.PostProvider;
 import com.redsoc.redsocialavicola.providers.UsersProvider;
+import com.redsoc.redsocialavicola.utils.RelativeTime;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -58,6 +64,8 @@ public class PostDetailActivity extends AppCompatActivity {
     UsersProvider mUsersProvider;
     CommentsProvider mCommentsProvider;
     AuthProvider mAuthProvider;
+    LikesProvider mLikesProvider;
+
 
     CommentAdapter mAdapter;
 
@@ -68,6 +76,8 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView mTextViewUsername;
     TextView mTextViewPhone;
     TextView mTextViewNameCategory;
+    TextView mTextViewRelativeTime;
+    TextView mTextViewLikes;
     ImageView mImageViewCategory;
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
@@ -89,6 +99,8 @@ public class PostDetailActivity extends AppCompatActivity {
         mTextViewUsername = findViewById(R.id.textViewUsername);
         mTextViewPhone = findViewById(R.id.textViewPhone);
         mTextViewNameCategory = findViewById(R.id.textViewNameCategory);
+        mTextViewRelativeTime = findViewById(R.id.textViewRelativeTime);
+        mTextViewLikes = findViewById(R.id.textViewLikes);
         mImageViewCategory = findViewById(R.id.imageViewCategory);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
@@ -104,11 +116,13 @@ public class PostDetailActivity extends AppCompatActivity {
         mUsersProvider = new UsersProvider();
         mCommentsProvider = new CommentsProvider();
         mAuthProvider = new AuthProvider();
+        mLikesProvider = new LikesProvider();
+
 
 
         mExtraPostId = getIntent().getStringExtra("id");
 
-        getPost();
+
 
         mFabComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +145,27 @@ public class PostDetailActivity extends AppCompatActivity {
                 goToShowProfile();
             }
         });
+
+        getPost();
+        getNumberLikes();
+
+    }
+
+    private void getNumberLikes() {
+
+        mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                int numberLikes = queryDocumentSnapshots.size();
+                if (numberLikes == 1) {
+                    mTextViewLikes.setText(numberLikes + " Me gusta");
+                }
+                else {
+                    mTextViewLikes.setText(numberLikes + " Me gustas");
+                }
+            }
+        });
+
     }
 
     @Override
@@ -294,6 +329,12 @@ public class PostDetailActivity extends AppCompatActivity {
                     if (documentSnapshot.contains("idUser")) {
                         mIdUser = documentSnapshot.getString("idUser");
                         getUserInfo(mIdUser);
+                    }
+
+                    if (documentSnapshot.contains("timestamp")) {
+                        Long timestamp = documentSnapshot.getLong("timestamp");
+                        String relativeTime = RelativeTime.getTimeAgo(timestamp, PostDetailActivity.this);
+                        mTextViewRelativeTime.setText(relativeTime);
                     }
 
                     instanceSlider();
