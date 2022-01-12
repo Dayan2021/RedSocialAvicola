@@ -63,6 +63,8 @@ public class HomeFragment extends Fragment {
        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Publicaciones");
        setHasOptionsMenu(true);
+
+
        mAuthProvider = new AuthProvider();
        mPostProvider = new PostProvider();
        mFab.setOnClickListener(new View.OnClickListener() {

@@ -1,17 +1,30 @@
 package com.redsoc.redsocialavicola.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.redsoc.redsocialavicola.R;
+import com.redsoc.redsocialavicola.adapters.MyPostsAdapter;
+import com.redsoc.redsocialavicola.models.Post;
 import com.redsoc.redsocialavicola.providers.AuthProvider;
 import com.redsoc.redsocialavicola.providers.PostProvider;
 import com.redsoc.redsocialavicola.providers.UsersProvider;
@@ -26,9 +39,11 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPhone;
     TextView mTextViewEmail;
     TextView mTextViewPostNumber;
+    TextView mTextViewPostExist;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
-    CircleImageView mCircleImageViewBack;
+    RecyclerView mRecyclerView;
+    Toolbar mToolbar;
 
 
     UsersProvider mUsersProvider;
@@ -36,6 +51,8 @@ public class UserProfileActivity extends AppCompatActivity {
     PostProvider mPostProvider;
 
     String mExtraIdUser;
+
+    MyPostsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +64,19 @@ public class UserProfileActivity extends AppCompatActivity {
         mTextViewUsername = findViewById(R.id.textViewUsername);
         mTextViewPhone = findViewById(R.id.textViewphone);
         mTextViewPostNumber = findViewById(R.id.textViewPostNumber);
+        mTextViewPostExist = findViewById(R.id.textViewPostExist);
         mCircleImageProfile = findViewById(R.id.circleImageProfile);
         mImageViewCover = findViewById(R.id.imageViewCover);
-        mCircleImageViewBack = findViewById(R.id.circleImageBack);
+        mRecyclerView= findViewById(R.id.recyclerViewMyPost);
+        mToolbar= findViewById(R.id.toolbar);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserProfileActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
 
 
 
@@ -59,18 +86,53 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mExtraIdUser = getIntent().getStringExtra("idUser");
 
-        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
 
 
         getUser();
         getPostNumber();
+        checkIfExistPost();
 
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = mPostProvider.getPostByUser(mExtraIdUser);
+        FirestoreRecyclerOptions<Post> options =
+                new FirestoreRecyclerOptions.Builder<Post>()
+                        .setQuery(query,Post.class)
+                        .build();
+
+        mAdapter = new MyPostsAdapter(options, UserProfileActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+    }
+
+    private void checkIfExistPost() {
+        mPostProvider.getPostByUser(mExtraIdUser).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                int numberPost = queryDocumentSnapshots.size();
+                if (numberPost > 0) {
+                    mTextViewPostExist.setText("Publicaciones");
+                    mTextViewPostExist.setTextColor(Color.RED);
+                }
+                else {
+                    mTextViewPostExist.setText("No hay publicaciones");
+                    mTextViewPostExist.setTextColor(Color.GRAY);
+                }
+            }
+        });
+    }
+
 
 
     private void getPostNumber() {
@@ -119,5 +181,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 }

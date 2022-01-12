@@ -14,5 +14,12 @@
     <color name ="colorDarkBlue">#0F1A30</color>
     <color name ="colorGrayLight">#D5D0D0</color>
     <color name ="colorRed">#EC0909</color>
+    <color name ="colorBlue">#0651D3</color>
+    <color name ="colorGreen">#0EC12B</color>
+    <color name ="colorYellow">#FFEB3B</color>
+
+
+
+
 
 </resources>
