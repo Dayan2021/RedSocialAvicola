@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RedSocialAvicola">
-        <activity android:name=".activities.FiltersActivity"></activity>
+        <activity android:name=".activities.FiltersActivity"
+            android:parentActivityName=".activities.HomeActivity"
+            />
         <activity
             android:name=".activities.UserProfileActivity"
             android:parentActivityName=".activities.PostDetailActivity" />
