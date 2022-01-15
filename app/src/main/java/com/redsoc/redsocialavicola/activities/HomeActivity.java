@@ -14,10 +14,16 @@ import com.redsoc.redsocialavicola.fragments.ChatsFragment;
 import com.redsoc.redsocialavicola.fragments.FiltersFragment;
 import com.redsoc.redsocialavicola.fragments.HomeFragment;
 import com.redsoc.redsocialavicola.fragments.ProfileFragment;
+import com.redsoc.redsocialavicola.providers.AuthProvider;
+import com.redsoc.redsocialavicola.providers.TokenProvider;
 
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigation;
+
+    TokenProvider mTokenProvider;
+    AuthProvider mAuthProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +31,11 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        mTokenProvider = new TokenProvider();
+        mAuthProvider = new AuthProvider();
         openFragment(new HomeFragment());
+        createToken();
     }
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -57,4 +67,8 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    private void createToken() {
+        mTokenProvider.create(mAuthProvider.getUid());
+    }
 }
